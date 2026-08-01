@@ -2,7 +2,7 @@ name: Build and publish image
 
 on:
   push:
-    branches: [main]
+    branches: [f44, rawhide]
   workflow_dispatch:
 
 env:
