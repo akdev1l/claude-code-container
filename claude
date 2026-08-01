@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+# Ensure the mount sources exist before podman does, otherwise podman will
+# create claude.json as a directory instead of a file.
+mkdir -p "$HOME/.config/claude"
+[ -e "$HOME/.config/claude/claude.json" ] || echo '{}' > "$HOME/.config/claude/claude.json"
+
+exec podman run \
+  --rm \
+  -it \
+  --security-opt label=disable \
+  -v "$HOME/.config/claude/claude.json:/root/.claude.json" \
+  -v "$HOME/.config/claude:/root/.claude" \
+  -v "$PWD:/project" \
+  -w /project \
+  claude-code:latest

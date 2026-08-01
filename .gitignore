@@ -1,0 +1,7 @@
+/aarch64
+/x86_64
+/*.rpm
+/*.build
+/*.log
+/claude-aarch64
+/claude-x86_64
