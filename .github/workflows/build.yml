@@ -1,0 +1,43 @@
+name: Build and publish image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  IMAGE: ghcr.io/akdev1l/claude-code
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: ./build.sh
+
+      - name: Determine version
+        id: version
+        run: |
+          echo "version=$(awk '/^Version:/{print $2}' claude-code.spec)" >> "$GITHUB_OUTPUT"
+          echo "date=$(date -u +%Y%m%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GHCR
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag and push image
+        run: |
+          podman tag claude-code:latest "$IMAGE:latest"
+          podman tag claude-code:latest "$IMAGE:${{ steps.version.outputs.version }}"
+          podman tag claude-code:latest "$IMAGE:${{ steps.version.outputs.date }}"
+          podman push "$IMAGE:latest"
+          podman push "$IMAGE:${{ steps.version.outputs.version }}"
+          podman push "$IMAGE:${{ steps.version.outputs.date }}"
