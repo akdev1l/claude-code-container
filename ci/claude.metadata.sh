@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# Requires: bash, curl, jq
 
 set -e
 
