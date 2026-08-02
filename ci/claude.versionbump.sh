@@ -5,13 +5,12 @@
 
 set -euo pipefail
 
-cd "$(dirname "${BASH_SOURCE[0]}")"
-
+SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 SPEC_FILE="claude-code.spec"
 SOURCES_FILE="SOURCES"
 MAINTAINER="Package Maintainer <maintainer@example.com>"
 
-metadata_json="$(./claude.metadata.sh)"
+metadata_json="$("$SCRIPT_DIR/claude.metadata.sh")"
 
 new_version="$(jq -r '.[0].version' <<<"$metadata_json")"
 current_version="$(awk '/^Version:/{print $2}' "$SPEC_FILE")"
