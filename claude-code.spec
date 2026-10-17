@@ -1,5 +1,5 @@
 Name:           claude-code
-Version:        2.1.273
+Version:        2.1.302
 Release:        1%{?dist}
 Summary:        Claude Code - Anthropic's official agentic CLI tool
 
@@ -49,6 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/claude
 
 %changelog
+* Sat Oct 17 2026 Package Maintainer <maintainer@example.com> - 2.1.302-1
+- Updated to official Claude Code release version 2.1.302.
 * Tue Sep 15 2026 Package Maintainer <maintainer@example.com> - 2.1.273-1
 - Updated to official Claude Code release version 2.1.273.
 * Sat Aug 01 2026 Package Maintainer <maintainer@example.com> - 2.1.220-1
